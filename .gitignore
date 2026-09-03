@@ -1,0 +1,28 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.db
+*.sqlite3
+
+# Uploads & Reports
+backend/uploads/*
+reports/*
+!backend/uploads/.gitkeep
+!reports/.gitkeep
+
+# IDEs
+.idea/
+.vscode/
+*.swp

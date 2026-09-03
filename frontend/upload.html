@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContractGuard - Upload</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <div class="logo">ContractGuard</div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="upload.html" class="active">Upload</a></li>
+                <li><a href="analysis.html">Analysis</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="compare.html">Compare</a></li>
+                <li><a href="deadlines.html">Deadlines</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="#" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <header>
+                <h2>Upload Contract</h2>
+            </header>
+            <div class="card">
+                <form id="upload-form">
+                    <div class="upload-area" id="drop-zone">
+                        <p>Drag and drop your contract PDF or DOCX here, or click to select</p>
+                        <input type="file" id="file-input" hidden accept=".pdf,.doc,.docx">
+                    </div>
+                    <div id="file-info" style="margin-top: 1rem; display: none;">
+                        <p>Selected file: <span id="file-name"></span></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;" id="upload-btn" disabled>Upload and Analyze</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/upload.js"></script>
+</body>
+</html>

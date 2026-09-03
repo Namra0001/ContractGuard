@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContractGuard - Compare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <div class="logo">ContractGuard</div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="analysis.html">Analysis</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="compare.html" class="active">Compare</a></li>
+                <li><a href="deadlines.html">Deadlines</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="#" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <header>
+                <h2>Compare Contracts</h2>
+            </header>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Version 1</h3>
+                    <select class="form-group" style="width:100%"><option>Select Contract</option></select>
+                </div>
+                <div class="card">
+                    <h3>Version 2</h3>
+                    <select class="form-group" style="width:100%"><option>Select Contract</option></select>
+                </div>
+            </div>
+            <button class="btn btn-primary">Compare Now</button>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
