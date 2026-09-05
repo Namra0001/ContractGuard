@@ -3,41 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ContractGuard - Chat</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>ContractGuard - AI Chat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
-    <div class="dashboard-layout">
-        <nav class="sidebar">
-            <div class="logo">ContractGuard</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="upload.html">Upload</a></li>
-                <li><a href="analysis.html">Analysis</a></li>
-                <li><a href="chat.html" class="active">Chat</a></li>
-                <li><a href="compare.html">Compare</a></li>
-                <li><a href="deadlines.html">Deadlines</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="#" id="logout-btn">Logout</a></li>
-            </ul>
-        </nav>
-        <main class="content">
-            <header>
-                <h2>Chat with Contract</h2>
-            </header>
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages">
-                    <p><strong>Bot:</strong> Hello! Ask me anything about the uploaded contract.</p>
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="chat-input-field" placeholder="Ask a question..." class="form-group">
-                    <button class="btn btn-primary" id="send-btn">Send</button>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 min-h-screen transition-colors duration-300 overflow-hidden flex">
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
+        <!-- Logo -->
+        <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-700">
+            <div class="h-8 w-8 bg-brand-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                <i data-lucide="shield-check" class="text-white h-5 w-5"></i>
+            </div>
+            <span class="text-xl font-bold text-slate-900 dark:text-white">ContractGuard</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <a href="dashboard.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="layout-dashboard" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Dashboard
+            </a>
+            <a href="upload.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="upload-cloud" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Upload Contract
+            </a>
+            <a href="analysis.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="file-search" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Analysis
+            </a>
+            <a href="chat.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300 group transition-colors">
+                <i data-lucide="message-square" class="h-5 w-5 mr-3 text-brand-600 dark:text-brand-400"></i>
+                AI Chat
+            </a>
+            <a href="compare.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="split-square-horizontal" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Compare
+            </a>
+            <a href="deadlines.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="calendar" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Deadlines
+            </a>
+        </div>
+
+        <!-- Bottom Links -->
+        <div class="p-4 border-t border-slate-200 dark:border-slate-700 space-y-1">
+            <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="help-circle" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Help / Support
+            </a>
+            <a href="settings.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="settings" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Settings
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 lg:pl-64 h-screen relative">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-30 flex-shrink-0 h-16 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center">
+                <button id="mobile-menu-btn" class="lg:hidden mr-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 focus:outline-none">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+                <div class="flex flex-col">
+                    <h1 class="text-lg font-semibold text-slate-900 dark:text-white leading-tight">ContractGuard AI</h1>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Ask questions about your contracts.</span>
                 </div>
             </div>
+            <div class="flex items-center space-x-2">
+                <button class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-2 hidden sm:block">
+                    <i data-lucide="trash-2" class="h-5 w-5"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 pb-32" id="chat-messages">
+            <div class="max-w-3xl mx-auto space-y-6">
+                
+                <!-- Initial AI Message -->
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-brand-100 dark:bg-brand-900 flex items-center justify-center">
+                        <i data-lucide="bot" class="h-5 w-5 text-brand-600 dark:text-brand-400"></i>
+                    </div>
+                    <div class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-tl-none px-5 py-4 text-sm text-slate-700 dark:text-slate-300 shadow-sm">
+                        <p>Hello! I'm your AI contract assistant. You can ask me to summarize a document, explain complex clauses, or identify risks.</p>
+                        
+                        <div class="mt-4 space-y-2">
+                            <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Suggested Questions</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="text-xs bg-slate-50 hover:bg-slate-100 dark:bg-slate-700 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-full px-3 py-1.5 transition-colors" onclick="document.getElementById('chat-input-field').value='What are the biggest risks in this contract?'">What are the biggest risks in this contract?</button>
+                                <button class="text-xs bg-slate-50 hover:bg-slate-100 dark:bg-slate-700 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-full px-3 py-1.5 transition-colors" onclick="document.getElementById('chat-input-field').value='Summarize the termination clause.'">Summarize the termination clause.</button>
+                                <button class="text-xs bg-slate-50 hover:bg-slate-100 dark:bg-slate-700 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-full px-3 py-1.5 transition-colors" onclick="document.getElementById('chat-input-field').value='Are there unusual liability terms?'">Are there unusual liability terms?</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
+
+        <!-- Input Area -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gray-50 dark:bg-slate-900 p-4 sm:p-6 lg:ml-64 border-t border-transparent dark:border-slate-800 bg-gradient-to-t from-gray-50 via-gray-50 to-transparent dark:from-slate-900 dark:via-slate-900">
+            <div class="max-w-3xl mx-auto relative">
+                <div class="flex items-center bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl shadow-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all">
+                    <button class="pl-4 pr-2 py-3 text-slate-400 hover:text-brand-500 transition-colors">
+                        <i data-lucide="paperclip" class="h-5 w-5"></i>
+                    </button>
+                    <input type="text" id="chat-input-field" placeholder="Ask something about this contract..." class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-slate-900 dark:text-white py-3 px-2 placeholder-slate-400">
+                    <button id="send-btn" class="pr-4 pl-2 py-3 text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 transition-colors">
+                        <i data-lucide="send" class="h-5 w-5"></i>
+                    </button>
+                </div>
+                <div class="text-center mt-2">
+                    <span class="text-xs text-slate-400 dark:text-slate-500">AI can make mistakes. Consider verifying important information.</span>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <!-- Override dashboard.js chat logic visually for the new styling without changing the JS file -->
+    <style>
+        /* This ensures messages appended by dashboard.js get styled nicely */
+        #chat-messages p {
+            margin-bottom: 1rem;
+        }
+        #chat-messages p strong:contains("You:") {
+            display: none; /* Hide the raw text */
+        }
+    </style>
+    <script>
+        // We will monkey patch the dashboard.js chat logic to use the new DOM structure
+        document.addEventListener('DOMContentLoaded', () => {
+            const sendBtn = document.getElementById('send-btn');
+            const chatInput = document.getElementById('chat-input-field');
+            const chatContainer = document.getElementById('chat-messages').querySelector('.max-w-3xl');
+            
+            if (sendBtn && chatInput && chatContainer) {
+                // Remove the old listener if possible by cloning (dashboard.js attaches anonymously)
+                const newSendBtn = sendBtn.cloneNode(true);
+                sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
+                
+                newSendBtn.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') sendMessage();
+                });
+
+                function sendMessage() {
+                    const msg = chatInput.value.trim();
+                    if (!msg) return;
+
+                    // User Message
+                    const userDiv = document.createElement('div');
+                    userDiv.className = "flex items-start gap-4 flex-row-reverse";
+                    userDiv.innerHTML = `
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                            <i data-lucide="user" class="h-5 w-5 text-slate-600 dark:text-slate-300"></i>
+                        </div>
+                        <div class="flex-1 max-w-[85%] bg-brand-600 text-white rounded-2xl rounded-tr-none px-5 py-3 text-sm shadow-sm">
+                            <p>${msg}</p>
+                        </div>
+                    `;
+                    chatContainer.appendChild(userDiv);
+                    lucide.createIcons({ root: userDiv });
+                    
+                    chatInput.value = '';
+                    scrollToBottom();
+
+                    // Loading indicator
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = "flex items-start gap-4";
+                    loadingDiv.innerHTML = `
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-brand-100 dark:bg-brand-900 flex items-center justify-center">
+                            <i data-lucide="bot" class="h-5 w-5 text-brand-600 dark:text-brand-400"></i>
+                        </div>
+                        <div class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-tl-none px-5 py-4 text-sm text-slate-700 dark:text-slate-300 shadow-sm w-fit max-w-fit">
+                            <div class="flex space-x-1">
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            </div>
+                        </div>
+                    `;
+                    chatContainer.appendChild(loadingDiv);
+                    lucide.createIcons({ root: loadingDiv });
+                    scrollToBottom();
+
+                    setTimeout(() => {
+                        loadingDiv.remove();
+                        // Bot Message
+                        const botDiv = document.createElement('div');
+                        botDiv.className = "flex items-start gap-4";
+                        botDiv.innerHTML = `
+                            <div class="flex-shrink-0 h-8 w-8 rounded-full bg-brand-100 dark:bg-brand-900 flex items-center justify-center">
+                                <i data-lucide="bot" class="h-5 w-5 text-brand-600 dark:text-brand-400"></i>
+                            </div>
+                            <div class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-tl-none px-5 py-4 text-sm text-slate-700 dark:text-slate-300 shadow-sm group">
+                                <p>Based on my analysis, the termination clause (Section 4.2) requires a 90-day written notice prior to the renewal date. If notice is not provided, the contract automatically renews for another 12-month term under the same pricing conditions.</p>
+                                <div class="mt-2 flex opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button class="text-slate-400 hover:text-brand-600 transition-colors p-1" title="Copy response"><i data-lucide="copy" class="h-4 w-4"></i></button>
+                                </div>
+                            </div>
+                        `;
+                        chatContainer.appendChild(botDiv);
+                        lucide.createIcons({ root: botDiv });
+                        scrollToBottom();
+                    }, 1500);
+                }
+
+                function scrollToBottom() {
+                    const chatMessages = document.getElementById('chat-messages');
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+        });
+    </script>
+    <script src="js/layout.js"></script>
     <script src="js/api.js"></script>
-    <script src="js/dashboard.js"></script>
 </body>
 </html>

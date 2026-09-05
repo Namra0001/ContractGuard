@@ -4,44 +4,360 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ContractGuard - Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
-    <div class="dashboard-layout">
-        <nav class="sidebar">
-            <div class="logo">ContractGuard</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                <li><a href="upload.html">Upload</a></li>
-                <li><a href="analysis.html">Analysis</a></li>
-                <li><a href="chat.html">Chat</a></li>
-                <li><a href="compare.html">Compare</a></li>
-                <li><a href="deadlines.html">Deadlines</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="#" id="logout-btn">Logout</a></li>
-            </ul>
-        </nav>
-        <main class="content">
-            <header>
-                <h2>Welcome Back!</h2>
-            </header>
-            <div class="dashboard-grid" id="stats-grid">
-                <div class="card stat-card">
-                    <h3>Total Contracts</h3>
-                    <p id="total-contracts">0</p>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 min-h-screen transition-colors duration-300 overflow-hidden flex">
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
+        <!-- Logo -->
+        <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-700">
+            <div class="h-8 w-8 bg-brand-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                <i data-lucide="shield-check" class="text-white h-5 w-5"></i>
+            </div>
+            <span class="text-xl font-bold text-slate-900 dark:text-white">ContractGuard</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <a href="dashboard.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300 group transition-colors">
+                <i data-lucide="layout-dashboard" class="h-5 w-5 mr-3 text-brand-600 dark:text-brand-400"></i>
+                Dashboard
+            </a>
+            <a href="upload.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="upload-cloud" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Upload Contract
+            </a>
+            <a href="analysis.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="file-search" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Analysis
+            </a>
+            <a href="chat.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="message-square" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                AI Chat
+            </a>
+            <a href="compare.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="split-square-horizontal" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Compare
+            </a>
+            <a href="deadlines.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="calendar" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Deadlines
+            </a>
+        </div>
+
+        <!-- Bottom Links -->
+        <div class="p-4 border-t border-slate-200 dark:border-slate-700 space-y-1">
+            <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="help-circle" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Help / Support
+            </a>
+            <a href="settings.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="settings" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Settings
+            </a>
+            
+            <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center">
+                <div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-sm">
+                    JD
                 </div>
-                <div class="card stat-card">
-                    <h3>Pending Reviews</h3>
-                    <p id="pending-reviews">0</p>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200">John Doe</p>
+                    <a href="#" id="logout-btn" class="text-xs text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">Logout</a>
                 </div>
             </div>
-            <section class="recent-contracts">
-                <h3>Recent Contracts</h3>
-                <ul id="contracts-list" class="card-list"></ul>
-            </section>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 lg:pl-64 h-screen">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-30 flex-shrink-0 h-16 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center">
+                <button id="mobile-menu-btn" class="lg:hidden mr-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 focus:outline-none">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+                <h1 class="text-lg font-semibold text-slate-900 dark:text-white">Dashboard</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                    <i data-lucide="search" class="h-5 w-5"></i>
+                </button>
+                <button id="dark-mode-toggle" class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                    <i data-lucide="moon" class="h-5 w-5 hidden dark:block"></i>
+                    <i data-lucide="sun" class="h-5 w-5 block dark:hidden"></i>
+                </button>
+                <div class="relative">
+                    <button class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                        <i data-lucide="bell" class="h-5 w-5"></i>
+                        <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-800"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <div class="max-w-7xl mx-auto space-y-6">
+                
+                <!-- Welcome Section -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Good afternoon, John</h2>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Here's an overview of your contracts and upcoming actions.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <a href="chat.html" class="inline-flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            <i data-lucide="message-square" class="h-4 w-4 mr-2"></i> Ask AI
+                        </a>
+                        <a href="upload.html" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-brand-600 hover:bg-brand-700 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
+                            <i data-lucide="plus" class="h-4 w-4 mr-2"></i> Upload Contract
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="card p-5 rounded-xl hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                                <i data-lucide="file-text" class="h-6 w-6"></i>
+                            </div>
+                            <div class="ml-4 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 truncate">Total Contracts</dt>
+                                    <dd>
+                                        <div class="text-2xl font-semibold text-slate-900 dark:text-white" id="total-contracts">0</div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm">
+                            <i data-lucide="trending-up" class="h-4 w-4 text-green-500 mr-1"></i>
+                            <span class="text-green-500 font-medium">+12% this month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-5 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+                                <i data-lucide="clock" class="h-6 w-6"></i>
+                            </div>
+                            <div class="ml-4 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 truncate">Pending Reviews</dt>
+                                    <dd>
+                                        <div class="text-2xl font-semibold text-slate-900 dark:text-white" id="pending-reviews">0</div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+                            2 high priority
+                        </div>
+                    </div>
+
+                    <div class="card p-5 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400">
+                                <i data-lucide="alert-triangle" class="h-6 w-6"></i>
+                            </div>
+                            <div class="ml-4 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 truncate">High Risk Contracts</dt>
+                                    <dd>
+                                        <div class="text-2xl font-semibold text-slate-900 dark:text-white" id="high-risk-contracts">3</div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+                            Requires attention
+                        </div>
+                    </div>
+
+                    <div class="card p-5 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 p-3 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+                                <i data-lucide="calendar" class="h-6 w-6"></i>
+                            </div>
+                            <div class="ml-4 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 truncate">Upcoming Deadlines</dt>
+                                    <dd>
+                                        <div class="text-2xl font-semibold text-slate-900 dark:text-white" id="upcoming-deadlines">5</div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+                            Next 30 days
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Contract Risk Overview & AI Insights -->
+                    <div class="space-y-6 lg:col-span-1">
+                        <!-- AI Insights -->
+                        <div class="card p-5 rounded-xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/10">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-brand-100 dark:bg-brand-900 p-2 rounded-lg mr-3">
+                                    <i data-lucide="sparkles" class="h-5 w-5 text-brand-600 dark:text-brand-400"></i>
+                                </div>
+                                <h3 class="font-semibold text-slate-900 dark:text-white">AI Contract Insights</h3>
+                            </div>
+                            <p class="text-sm font-medium text-slate-800 dark:text-slate-200 mb-4">AI detected 5 contracts requiring attention.</p>
+                            <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300 mb-4">
+                                <li class="flex items-start">
+                                    <i data-lucide="alert-circle" class="h-4 w-4 text-amber-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                                    <span>3 contracts contain high-risk clauses</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="clock" class="h-4 w-4 text-amber-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                                    <span>2 renewal deadlines are approaching</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="check-circle-2" class="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                                    <span>7 contracts have no critical issues</span>
+                                </li>
+                            </ul>
+                            <a href="analysis.html" class="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 flex items-center">
+                                View AI Analysis <i data-lucide="arrow-right" class="h-4 w-4 ml-1"></i>
+                            </a>
+                        </div>
+
+                        <!-- Risk Overview Chart -->
+                        <div class="card p-5 rounded-xl">
+                            <h3 class="font-semibold text-slate-900 dark:text-white mb-4">Contract Risk Overview</h3>
+                            <div class="relative h-48 w-full flex justify-center items-center">
+                                <canvas id="riskChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Upcoming Deadlines -->
+                        <div class="card rounded-xl overflow-hidden">
+                            <div class="p-5 border-b border-slate-200 dark:border-slate-700">
+                                <h3 class="font-semibold text-slate-900 dark:text-white">Upcoming Deadlines</h3>
+                            </div>
+                            <div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                                <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-900 dark:text-white">Contract Renewal</p>
+                                            <p class="text-xs text-slate-500 mt-1">Vendor Agreement 2024</p>
+                                        </div>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                            12 days remaining
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-2"><i data-lucide="calendar" class="inline h-3 w-3 mr-1"></i> Sep 15, 2026</p>
+                                </div>
+                                <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-900 dark:text-white">Notice Period</p>
+                                            <p class="text-xs text-slate-500 mt-1">Service Agreement</p>
+                                        </div>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                            19 days remaining
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-2"><i data-lucide="calendar" class="inline h-3 w-3 mr-1"></i> Sep 22, 2026</p>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-800/50 text-center border-t border-slate-200 dark:border-slate-700">
+                                <a href="deadlines.html" class="text-xs font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400">View all deadlines</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Contracts Table -->
+                    <div class="lg:col-span-2">
+                        <div class="card rounded-xl overflow-hidden flex flex-col h-full">
+                            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <h3 class="font-semibold text-slate-900 dark:text-white">Recent Contracts</h3>
+                                <div class="flex space-x-2">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i data-lucide="search" class="h-4 w-4 text-slate-400"></i>
+                                        </div>
+                                        <input type="text" class="block w-full pl-9 pr-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-brand-500 focus:border-brand-500" placeholder="Search...">
+                                    </div>
+                                    <button class="inline-flex items-center px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                        <i data-lucide="filter" class="h-4 w-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                    <thead class="bg-slate-50 dark:bg-slate-800">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contract Name</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Counterparty</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Risk Level</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contracts-table-body" class="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-700">
+                                        <!-- Dynamic rows will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-auto p-4 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center text-sm">
+                                <span class="text-slate-500">Showing 1 to 5 of 12 contracts</span>
+                                <div class="flex space-x-1">
+                                    <button class="px-3 py-1 border border-slate-300 dark:border-slate-600 rounded-md disabled:opacity-50" disabled>Previous</button>
+                                    <button class="px-3 py-1 border border-slate-300 dark:border-slate-600 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
     </div>
+
+    <script src="js/layout.js"></script>
     <script src="js/api.js"></script>
     <script src="js/dashboard.js"></script>
 </body>

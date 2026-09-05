@@ -4,28 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ContractGuard - Login</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <h1>ContractGuard</h1>
-            <p>Secure & Smart Contract Analysis</p>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div class="flex justify-center">
+            <div class="h-12 w-12 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i data-lucide="shield-check" class="text-white h-8 w-8"></i>
+            </div>
+        </div>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-white">
+            ContractGuard
+        </h2>
+        <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
+            Secure & Smart Contract Analysis
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white dark:bg-slate-800 py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-slate-200 dark:border-slate-700">
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Email address
+                    </label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="mail" class="h-5 w-5 text-slate-400"></i>
+                        </div>
+                        <input id="email" name="email" type="email" autocomplete="email" required class="focus:ring-brand-500 focus:border-brand-500 block w-full pl-10 sm:text-sm border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-700 dark:text-white py-2.5 px-3 border transition-colors">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Password
+                    </label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="lock" class="h-5 w-5 text-slate-400"></i>
+                        </div>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required class="focus:ring-brand-500 focus:border-brand-500 block w-full pl-10 sm:text-sm border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-700 dark:text-white py-2.5 px-3 border transition-colors">
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <p class="auth-links">Don't have an account? <a href="register.html">Register</a></p>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-slate-300 rounded dark:bg-slate-900 dark:border-slate-700">
+                        <label for="remember-me" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300">
+                            Forgot your password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
+                        Sign in
+                    </button>
+                </div>
             </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-300 dark:border-slate-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                            Don't have an account?
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <a href="register.html" class="w-full flex justify-center py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
+                        Create new account
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+    
+    <script src="js/layout.js"></script>
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
 </body>

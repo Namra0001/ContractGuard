@@ -9,12 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                // Mock API call or real API call
-                // const res = await api.post('/auth/login', { email, password });
-                // localStorage.setItem('token', res.token);
-                
-                // For demonstration, directly log in
-                localStorage.setItem('token', 'dummy_token');
+                const res = await api.post('/auth/login', { email, password });
+                localStorage.setItem('token', res.access_token || res.token);
                 window.location.href = 'dashboard.html';
             } catch (err) {
                 alert(err.message);
@@ -30,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                // const res = await api.post('/auth/register', { name, email, password });
+                await api.post('/auth/register', { name, email, password });
                 alert('Registration successful! Please login.');
                 window.location.href = 'index.html';
             } catch (err) {

@@ -4,37 +4,250 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ContractGuard - Analysis</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
-    <div class="dashboard-layout">
-        <nav class="sidebar">
-            <div class="logo">ContractGuard</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="upload.html">Upload</a></li>
-                <li><a href="analysis.html" class="active">Analysis</a></li>
-                <li><a href="chat.html">Chat</a></li>
-                <li><a href="compare.html">Compare</a></li>
-                <li><a href="deadlines.html">Deadlines</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="#" id="logout-btn">Logout</a></li>
-            </ul>
-        </nav>
-        <main class="content">
-            <header>
-                <h2>Analysis Results</h2>
-            </header>
-            <div class="card">
-                <h3>Risks & Anomalies</h3>
-                <ul class="card-list" id="risks-list">
-                    <li>High Risk: Indemnification clause is too broad. <span style="color:red">[Action Required]</span></li>
-                    <li>Medium Risk: Auto-renewal without notice.</li>
-                </ul>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 min-h-screen transition-colors duration-300 overflow-hidden flex">
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
+        <!-- Logo -->
+        <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-700">
+            <div class="h-8 w-8 bg-brand-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                <i data-lucide="shield-check" class="text-white h-5 w-5"></i>
+            </div>
+            <span class="text-xl font-bold text-slate-900 dark:text-white">ContractGuard</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <a href="dashboard.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="layout-dashboard" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Dashboard
+            </a>
+            <a href="upload.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="upload-cloud" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Upload Contract
+            </a>
+            <a href="analysis.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300 group transition-colors">
+                <i data-lucide="file-search" class="h-5 w-5 mr-3 text-brand-600 dark:text-brand-400"></i>
+                Analysis
+            </a>
+            <a href="chat.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="message-square" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                AI Chat
+            </a>
+            <a href="compare.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="split-square-horizontal" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Compare
+            </a>
+            <a href="deadlines.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 group transition-colors">
+                <i data-lucide="calendar" class="h-5 w-5 mr-3 text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></i>
+                Deadlines
+            </a>
+        </div>
+
+        <!-- Bottom Links -->
+        <div class="p-4 border-t border-slate-200 dark:border-slate-700 space-y-1">
+            <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="help-circle" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Help / Support
+            </a>
+            <a href="settings.html" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                <i data-lucide="settings" class="h-5 w-5 mr-3 text-slate-400"></i>
+                Settings
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 lg:pl-64 h-screen">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-30 flex-shrink-0 h-16 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center">
+                <button id="mobile-menu-btn" class="lg:hidden mr-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 focus:outline-none">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+                <div class="flex items-center text-sm text-slate-500 dark:text-slate-400">
+                    <a href="dashboard.html" class="hover:text-slate-900 dark:hover:text-white">Dashboard</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-slate-900 dark:text-white font-medium truncate max-w-[200px] sm:max-w-xs">Vendor Agreement 2024.pdf</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600">
+                    <i data-lucide="download" class="h-4 w-4 sm:mr-2"></i>
+                    <span class="hidden sm:inline">Export</span>
+                </button>
+                <a href="chat.html" class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-brand-600 hover:bg-brand-700">
+                    <i data-lucide="message-square" class="h-4 w-4 sm:mr-2"></i>
+                    <span class="hidden sm:inline">Ask AI</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col lg:flex-row gap-6 items-start">
+                    
+                    <!-- Left Column: Contract Info & Risk Summary -->
+                    <div class="w-full lg:w-1/3 space-y-6 lg:sticky lg:top-8">
+                        <div class="card p-5 rounded-xl border-t-4 border-t-amber-500">
+                            <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Overall Risk Score</h3>
+                            <div class="flex items-end mb-4">
+                                <span class="text-4xl font-bold text-slate-900 dark:text-white">72</span>
+                                <span class="text-slate-500 dark:text-slate-400 mb-1 ml-1">/100</span>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                Medium Risk
+                            </span>
+                        </div>
+
+                        <div class="card rounded-xl overflow-hidden">
+                            <div class="p-5 border-b border-slate-200 dark:border-slate-700">
+                                <h3 class="font-semibold text-slate-900 dark:text-white">Document Details</h3>
+                            </div>
+                            <div class="p-5 space-y-4 text-sm">
+                                <div>
+                                    <p class="text-slate-500 dark:text-slate-400">Contract Type</p>
+                                    <p class="font-medium text-slate-900 dark:text-white">Vendor Agreement</p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-500 dark:text-slate-400">Counterparty</p>
+                                    <p class="font-medium text-slate-900 dark:text-white">Acme Corporation</p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-500 dark:text-slate-400">Effective Date</p>
+                                    <p class="font-medium text-slate-900 dark:text-white">Oct 1, 2026</p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-500 dark:text-slate-400">Jurisdiction</p>
+                                    <p class="font-medium text-slate-900 dark:text-white">Delaware, USA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Analysis Results (Accordions) -->
+                    <div class="w-full lg:w-2/3 space-y-6">
+                        
+                        <div class="card p-6 rounded-xl">
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Executive Summary</h2>
+                            <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                                This is a standard vendor agreement with Acme Corporation. The primary concerns revolve around a broad indemnification clause that heavily favors the counterparty, and an auto-renewal provision that requires a 90-day notice to terminate. Payment terms are acceptable (Net 30), and confidentiality obligations are mutual.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4" id="risks-list">
+                            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mt-8 mb-4">Key Findings & Risks</h3>
+
+                            <!-- High Risk Item -->
+                            <div class="card rounded-xl overflow-hidden border border-red-200 dark:border-red-900/50">
+                                <div class="p-5 bg-red-50/50 dark:bg-red-900/10 flex items-start justify-between cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+                                    <div class="flex items-start">
+                                        <i data-lucide="alert-triangle" class="h-5 w-5 text-red-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                                        <div>
+                                            <h4 class="font-medium text-slate-900 dark:text-white">Broad Indemnification</h4>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Section 8.2 - Liability</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform"></i>
+                                </div>
+                                <div class="p-5 border-t border-slate-200 dark:border-slate-700 text-sm hidden">
+                                    <div class="mb-4">
+                                        <h5 class="font-medium text-slate-900 dark:text-white mb-1">Explanation</h5>
+                                        <p class="text-slate-700 dark:text-slate-300">The indemnification clause is unilateral and covers "any and all claims, whether direct or indirect," which could expose the company to significant uncapped liability for actions out of its direct control.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-slate-900 dark:text-white mb-1">Recommendation</h5>
+                                        <p class="text-slate-700 dark:text-slate-300">Negotiate for mutual indemnification and cap total liability to fees paid within the last 12 months. Remove "indirect" claims.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Medium Risk Item -->
+                            <div class="card rounded-xl overflow-hidden border border-amber-200 dark:border-amber-900/50">
+                                <div class="p-5 bg-amber-50/50 dark:bg-amber-900/10 flex items-start justify-between cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+                                    <div class="flex items-start">
+                                        <i data-lucide="alert-circle" class="h-5 w-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                                        <div>
+                                            <h4 class="font-medium text-slate-900 dark:text-white">Auto-Renewal Notice Period</h4>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Section 4.1 - Term & Termination</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform"></i>
+                                </div>
+                                <div class="p-5 border-t border-slate-200 dark:border-slate-700 text-sm hidden">
+                                    <div class="mb-4">
+                                        <h5 class="font-medium text-slate-900 dark:text-white mb-1">Explanation</h5>
+                                        <p class="text-slate-700 dark:text-slate-300">The contract automatically renews for a successive 1-year term unless written notice is provided at least 90 days prior to the expiration date. 90 days is unusually long for this type of agreement.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-slate-900 dark:text-white mb-1">Recommendation</h5>
+                                        <p class="text-slate-700 dark:text-slate-300">Reduce notice period to 30 days. Add a calendar reminder for the deadline.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Safe Item -->
+                            <div class="card rounded-xl overflow-hidden border border-green-200 dark:border-green-900/50">
+                                <div class="p-5 bg-green-50/50 dark:bg-green-900/10 flex items-start justify-between cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+                                    <div class="flex items-start">
+                                        <i data-lucide="check-circle-2" class="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                                        <div>
+                                            <h4 class="font-medium text-slate-900 dark:text-white">Standard Payment Terms</h4>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Section 3 - Compensation</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform rotate-180"></i>
+                                </div>
+                                <div class="p-5 border-t border-slate-200 dark:border-slate-700 text-sm">
+                                    <p class="text-slate-700 dark:text-slate-300">Payment terms are Net 30 days from receipt of invoice, which aligns with standard company policy. No late fees are stipulated unless payment is more than 60 days overdue.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </main>
     </div>
+
+    <script src="js/layout.js"></script>
     <script src="js/api.js"></script>
     <script src="js/dashboard.js"></script>
 </body>

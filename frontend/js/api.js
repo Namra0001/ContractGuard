@@ -1,4 +1,4 @@
-const API_BASE = '/api'; // Adjust base URL as needed
+const API_BASE = 'http://localhost:8000/api'; // Point to backend server
 
 const api = {
     async request(endpoint, options = {}) {
